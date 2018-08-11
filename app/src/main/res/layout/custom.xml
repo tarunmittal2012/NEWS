@@ -1,74 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
+
     <TextView
         android:id="@+id/web_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="@dimen/margin"
-        android:textStyle="bold"
+        android:layout_marginStart="@dimen/margin_start"
+        android:fontFamily="sans-serif-condensed"
         android:text="@string/news_headline"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/news_headline"/>
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/news_headline"
+        android:textStyle="bold"/>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/colorPrimary"
-        android:layout_below="@id/web_title"/>
 
     <TextView
         android:id="@+id/publication_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/web_title"
-        android:layout_margin="@dimen/margin"
+        android:layout_below="@id/author_name"
+        android:layout_marginStart="@dimen/margin_start"
+        android:layout_marginTop="@dimen/margin_start"
         android:text="@string/web_publication_date"
-        android:textColor="@color/colorPrimary"/>
+        android:textColor="@android:color/black"/>
 
-    <View
-        android:id="@+id/view1"
-        android:layout_width="2dp"
-        android:background="@color/colorPrimary"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/view2"
-        android:layout_below="@id/web_title"
-        android:layout_toEndOf="@id/publication_date"/>
 
     <TextView
         android:id="@+id/news_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/web_title"
-        android:layout_margin="@dimen/margin"
-        android:layout_toEndOf="@id/view1"
-        android:text="@string/type"
-        android:textColor="@color/colorPrimary"/>
-
-    <View
-        android:id="@+id/view2"
-        android:background="@color/colorPrimary"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_alignParentEnd="true"
         android:layout_below="@id/publication_date"
-        />
-    <TextView
-        android:id="@+id/web_url"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/view2"
-        android:layout_margin="@dimen/margin"
-        android:text="@string/url"
-        android:textColor="@color/colorPrimary"/>
+        android:text="@string/type"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/article_size"/>
+
+
     <TextView
         android:id="@+id/section_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/web_url"
-        android:layout_margin="@dimen/margin"
+        android:layout_below="@id/publication_date"
+        android:layout_marginStart="@dimen/margin_start"
+        android:fontFamily="sans-serif"
         android:text="@string/sectionName"
-        android:textColor="@color/colorPrimary"/>
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/article_size"/>
+
+    <TextView
+        android:id="@+id/author_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/web_title"
+        android:layout_marginStart="@dimen/margin_start"
+        android:layout_marginTop="@dimen/margin_start"
+        android:fontFamily="sans-serif"
+        android:text="@string/authorName"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/article_size"
+        android:textStyle="bold"/>
+
 
 </RelativeLayout>

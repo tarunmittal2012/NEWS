@@ -11,8 +11,6 @@ import android.widget.TextView;
 
 import java.util.List;
 public class NewsAdapter extends ArrayAdapter<News> {
-    private static final String date_Seprator=" T";
-    String date,time;
 
     public NewsAdapter(@NonNull Context context, @NonNull List<News> news) {
 
@@ -23,22 +21,22 @@ public class NewsAdapter extends ArrayAdapter<News> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-        View listItemView=convertView;
-        if(listItemView==null){
-            listItemView= LayoutInflater.from(getContext()).inflate(R.layout.custom,parent,false);
+        View listItemView = convertView;
+        if (listItemView == null) {
+            listItemView = LayoutInflater.from(getContext()).inflate(R.layout.custom, parent, false);
 
         }
-        News currentNews=getItem(position);
-        TextView webTitle=listItemView.findViewById(R.id.web_title);
-        TextView webUrl=listItemView.findViewById(R.id.web_url);
-        TextView webPublicationDate=listItemView.findViewById(R.id.publication_date);
-        TextView type=listItemView.findViewById(R.id.news_type);
-        TextView sectionName=listItemView.findViewById(R.id.section_name);
+        News currentNews = getItem(position);
+        TextView webTitle = listItemView.findViewById(R.id.web_title);
+        TextView webPublicationDate = listItemView.findViewById(R.id.publication_date);
+        TextView type = listItemView.findViewById(R.id.news_type);
+        TextView sectionName = listItemView.findViewById(R.id.section_name);
+        TextView authorName = listItemView.findViewById(R.id.author_name);
         webTitle.setText(currentNews.getWebTitle());
-        webUrl.setText(currentNews.getWebUrl());
         type.setText(currentNews.getType());
+        authorName.setText(currentNews.getAuthorName());
         sectionName.setText(currentNews.getSectionName());
         webPublicationDate.setText(currentNews.getWebPublicationDate());
-return listItemView;
+        return listItemView;
     }
 }

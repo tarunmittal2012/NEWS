@@ -89,6 +89,7 @@ public class QueryUtils {
     }
 
     public static List<News> fetchEarthquakeData(String requestUrl) {
+
         URL url = createUrl(requestUrl);
         String jsonResponse = null;
         try {
@@ -108,24 +109,43 @@ public class QueryUtils {
         List<News> news = new ArrayList<>();
 
         try {
-            JSONObject baseJsonResponse = new JSONObject(jsonResponse);
-            JSONArray newsArray = baseJsonResponse.getJSONArray("results");
+            JSONObject root = new JSONObject(jsonResponse);
+            JSONObject response = root.getJSONObject("response");
+            JSONArray newsArray = response.getJSONArray("results");
 
             for (int i = 0; i < newsArray.length(); i++) {
 
+                Log.e(LOG_TAG, newsArray.length() + "");
                 JSONObject currentNews = newsArray.getJSONObject(i);
                 String type = currentNews.getString("type");
+                String webUrl = currentNews.getString("webUrl");
                 String sectionName = currentNews.getString("sectionName");
                 String webPublicationDate = currentNews.getString("webPublicationDate");
-                String webUrl = currentNews.getString("webUrl");
                 String webTitle = currentNews.getString("webTitle");
-                News mNews = new News(webTitle, webPublicationDate, webUrl, type, sectionName);
+                String author = "";
+                JSONObject elements = newsArray.getJSONObject(i);
+                if (elements.has("fields")) {
+                    JSONObject fields = elements.getJSONObject("fields");
+                    if (fields.has("byline")) {
+                        author = fields.getString("byline");
+                    }
+                } else {
+                    author="No Author ..";
+                }
+
+                Log.e(LOG_TAG, type + "\n" +
+                        sectionName + "\n" +
+                        webPublicationDate + "\n" +
+                        webTitle + "\n" +
+                        author + "");
+                News mNews = new News(webTitle, webPublicationDate, webUrl, type, sectionName, author);
                 news.add(mNews);
 
             }
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Problem parsing extractFeatureFromJson: ", e);
             e.printStackTrace();
+
         }
         return news;
     }

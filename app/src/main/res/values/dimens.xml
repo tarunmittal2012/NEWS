@@ -2,4 +2,8 @@
 <resources>
     <dimen name="margin">20dp</dimen>
     <dimen name="news_headline">20sp</dimen>
+    <dimen name="error_size">30sp</dimen>
+    <dimen name="article_size">16sp</dimen>
+    <dimen name="margin_start">8dp</dimen>
+    <dimen name="divider_height">2dp</dimen>
 </resources>
