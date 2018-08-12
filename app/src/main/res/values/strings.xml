@@ -29,7 +29,7 @@
     <string name="minimum_news_value" translatable="false">0</string>
 
     <string name="order_by_label">Order By</string>
-    <string name="order_by_key" translatable="false">order_by</string>
+    <string name="order_by_key" translatable="false">order-by</string>
     <string name="order_by_default" translatable="false">@string/order_by_newest_news_value</string>
 
     <string name="order_by_newest_news_label">Newest</string>

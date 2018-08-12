@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements android.support.v
     private static final String LOG_TAG = MainActivity.class.getName();
 
     private static final String NEWS_REQUEST_URL =
-            "https://content.guardianapis.com/search?api-key=6583ac2e-75a5-4032-bb9d-1da35a70e296&show-fields=byline";
+            "https://content.guardianapis.com/search?";
 
     private static final int NEWS_LOADER_ID = 1;
 
