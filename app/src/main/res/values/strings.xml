@@ -4,7 +4,10 @@
     <string name="web_publication_date">Date</string>
     <string name="type">Type</string>
     <string name="url">Web URL</string>
+    <string name="type_key">type</string>
     <string name="sectionName">Section Name</string>
+    <string name="sectionName1">sectionName</string>
+
     <string name="no_news_found">No News Available reload after sometime</string>
     <string name="no_internet_connection">No Internet Connection</string>
     <string name="App_title">TODAYS NEWS HEADLINE THE GUARDIAN NEWSPAPER</string>
@@ -17,4 +20,66 @@
     <string name="data_msg2">Problem building the URL</string>
     <string name="data_format">UTF-8</string>
     <string name="news_msg">News are Updated!</string>
+    <string name="news_setting">News Settings</string>
+    <string name="menu_item">setting</string>
+    <string name="type_value">article</string>
+    <string name="minimum_news">Minimum News</string>
+    <string name="minimum_news_key" translatable="false">min_news</string>
+    <string name="minimum_news_value" translatable="false">0</string>
+    <string-array name="order_by_label">
+        <item>@string/order_by_newest_news_label</item>
+        <item>@string/order_by_oldest_news_label</item>
+        <item>@string/order_by_relevance_news_label</item>
+    </string-array>
+    <string-array name="order_by_value">
+        <item>@string/order_by_newest_news_value</item>
+        <item>@string/order_by_oldest_news_value</item>
+        <item>@string/order_by_relevance_news_value</item>
+
+    </string-array>
+    <string name="order_by_label">Order By</string>
+    <string name="order_by_key" translatable="false">order_by</string>
+    <string name="order_by_default" translatable="false">@string/order_by_newest_news_value</string>
+    <string name="order_by_newest_news_label">Newest</string>
+    <string name="order_by_newest_news_value" translatable="false">newest</string>
+    <string name="order_by_oldest_news_label" translatable="false">Oldest</string>
+    <string name="order_by_oldest_news_value">oldest</string>
+    <string name="order_by_relevance_news_label">Relevance</string>
+    <string name="order_by_relevance_news_value" translatable="false">relevance</string>
+    <string name="section_default">@string/section_all_news_value</string>
+    <string name="section_key" translatable="false">section</string>
+    <string name="section_label">Section</string>
+    <string name="settings_section_all_news_label">All</string>
+    <string name="settings_section_australia_news_news_label">Australia news</string>
+    <string name="settings_section_media_network_news_label">Media Network</string>
+    <string name="settings_section_Business_news_label">Buisness</string>
+    <string name="settings_section_society_label">Society</string>
+    <string name="settings_section_Film_news_label">Film</string>
+    <string name="settings_section_world_news_label">World news</string>
+    <string name="section_all_news_value" translatable="false"/>
+    <string name="settings_section_australia_news_news_value" translatable="false">australia-news</string>
+    <string name="settings_section_world_news_value" translatable="false">world</string>
+    <string name="settings_section_media_network_news_value" translatable="false">media-network</string>
+    <string name="settings_section_society_value" translatable="false">society</string>
+    <string name="settings_section_Business_value" translatable="false">buisness</string>
+    <string name="settings_section_Film_value" translatable="false">film</string>
+    <string-array name="section_value">
+        <item>@string/section_all_news_value</item>
+        <item>@string/settings_section_australia_news_news_value</item>
+        <item>@string/settings_section_media_network_news_value</item>
+        <item>@string/settings_section_Business_value</item>
+        <item>@string/settings_section_society_value</item>
+        <item>@string/settings_section_Film_value</item>
+        <item>@string/settings_section_world_news_value</item>
+    </string-array>
+    <string-array name="section_label">
+        <item>@string/settings_section_all_news_label</item>
+        <item>@string/settings_section_australia_news_news_label</item>
+        <item>@string/settings_section_media_network_news_label</item>
+        <item>@string/settings_section_Business_news_label</item>
+        <item>@string/settings_section_society_label</item>
+        <item>@string/settings_section_Film_news_label</item>
+        <item>@string/settings_section_world_news_label</item>
+    </string-array>
+
 </resources>

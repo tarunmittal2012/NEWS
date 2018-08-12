@@ -2,17 +2,21 @@ package com.example.tarunmittal.news;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
@@ -95,6 +99,21 @@ public class MainActivity extends AppCompatActivity implements android.support.v
     @Override
     public Loader<List<News>> onCreateLoader(int i, @Nullable Bundle bundle) {
 
+        SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(this);
+        String minNews = preference.getString(getString(R.string.minimum_news_key), getString(R.string.minimum_news_value));
+        String orderBy = preference.getString(getString(R.string.order_by_key), getString(R.string.order_by_default));
+        String section = preference.getString(getString(R.string.section_key), getString(R.string.section_default));
+
+        Uri baseUri = Uri.parse(NEWS_REQUEST_URL);
+        Uri.Builder builder = baseUri.buildUpon();
+        builder.appendQueryParameter("api-key", "test");
+        builder.appendQueryParameter("show-tags", "contributor");
+        builder.appendQueryParameter("page-size", minNews);
+        builder.appendQueryParameter("order-by", orderBy);
+
+        if (!section.equals(getString(R.string.section_default))) {
+            builder.appendQueryParameter("section", section);
+        }
         return new NewsLoader(this, NEWS_REQUEST_URL);
 
     }
@@ -162,6 +181,26 @@ public class MainActivity extends AppCompatActivity implements android.support.v
 
         autoUpdate.cancel();
         super.onPause();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        if (id == R.id.settings) {
+            Intent settingIntent = new Intent(this, SettingActivity.class);
+            startActivity(settingIntent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.settings, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 }
 

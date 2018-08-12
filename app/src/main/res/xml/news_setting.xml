@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:defaultValue="@string/type_value"
+        android:inputType="numberDecimal"
+        android:key="@string/minimum_news_key"
+        android:selectAllOnFocus="true"
+        android:textColor="@color/list_background"
+        android:title="@string/minimum_news"/>
+
+    <ListPreference
+        android:defaultValue="@string/order_by_default"
+        android:entries="@array/order_by_label"
+        android:entryValues="@array/order_by_value"
+        android:key="@string/order_by_key"
+        android:title="@string/order_by_label"
+
+        />
+    <ListPreference
+        android:defaultValue="@string/section_default"
+        android:entries="@array/section_label"
+        android:entryValues="@array/section_value"
+        android:key="@string/section_key"
+        android:title="@string/section_label"/>
+</PreferenceScreen>
