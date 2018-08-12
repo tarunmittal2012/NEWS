@@ -10,4 +10,11 @@
     <string name="App_title">TODAYS NEWS HEADLINE THE GUARDIAN NEWSPAPER</string>
     <string name="authorName">Author Name</string>
     <string name="no_author">No Author ..</string>
+    <string name="problem_json_msg">Problem parsing extractFeatureFromJson:</string>
+    <string name="http_request_problem_message">Problem making the HTTP request.</string>
+    <string name="data_msg"></string>
+    <string name="data_msg1"></string>
+    <string name="data_msg2">Problem building the URL</string>
+    <string name="data_format">UTF-8</string>
+    <string name="news_msg">News are Updated!</string>
 </resources>

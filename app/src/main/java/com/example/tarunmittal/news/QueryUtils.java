@@ -1,5 +1,6 @@
 package com.example.tarunmittal.news;
 
+import android.content.res.Resources;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -21,6 +22,30 @@ public class QueryUtils {
 
     private final static String LOG_TAG = QueryUtils.class.getName();
 
+    private static final int READ_TIMEOUT = 10000;
+
+    private static final int CONNECTION_TIMEOUT = 10000;
+
+    private static final String KEY_TITLE = "webTitle";
+
+    private static final String KEY_TYPE = "type";
+
+    private static final String KEY_URL = "webUrl";
+
+    private static final String KEY_SECTION_NAME = "sectionName";
+
+    private static final String KEY_FIELD = "fields";
+
+    private static final String KEY_BYLINE = "byline";
+
+    private static final String KEY_RESPONSE = "response";
+
+    private static final String KEY_GET = "GET";
+
+    private static final String KEY_RESULT = "results";
+
+    private static final String KEY_PUBLICATION_DATE = "webPublicationDate";
+
     private QueryUtils() {
 
     }
@@ -36,15 +61,16 @@ public class QueryUtils {
         try {
 
             httpURLConnection = (HttpURLConnection) url.openConnection();
-            httpURLConnection.setReadTimeout(10000);
-            httpURLConnection.setConnectTimeout(15000);
-            httpURLConnection.setRequestMethod("GET");
+            httpURLConnection.setReadTimeout(READ_TIMEOUT);
+            httpURLConnection.setConnectTimeout(CONNECTION_TIMEOUT);
+            httpURLConnection.setRequestMethod(KEY_GET);
             httpURLConnection.connect();
-            if (httpURLConnection.getResponseCode() == 200) {
+            if (httpURLConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 inputStream = httpURLConnection.getInputStream();
                 jsonResponse = readStream(inputStream);
+
             } else {
-                Log.e(LOG_TAG, "Error response code: " + httpURLConnection.getResponseCode());
+                Log.e(LOG_TAG, "Error response code:" + httpURLConnection.getResponseCode());
             }
         } catch (IOException e) {
             Log.e(LOG_TAG, "Problem retrieving the NEWS JSON results.", e);
@@ -81,7 +107,7 @@ public class QueryUtils {
         try {
             url = new URL(stringUrl);
         } catch (MalformedURLException e) {
-            Log.e(LOG_TAG, "Problem building the URL ", e);
+            Log.e(LOG_TAG, Resources.getSystem().getString(R.string.data_msg2), e);
 
             e.printStackTrace();
         }
@@ -95,7 +121,7 @@ public class QueryUtils {
         try {
             jsonResponse = makeHTTPRequest(url);
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem making the HTTP request.", e);
+            Log.e(LOG_TAG, Resources.getSystem().getString(R.string.http_request_problem_message), e);
         }
         List<News> news = extractFeatureFromJson(jsonResponse);
         return news;
@@ -110,27 +136,27 @@ public class QueryUtils {
 
         try {
             JSONObject root = new JSONObject(jsonResponse);
-            JSONObject response = root.getJSONObject("response");
-            JSONArray newsArray = response.getJSONArray("results");
+            JSONObject response = root.getJSONObject(KEY_RESPONSE);
+            JSONArray newsArray = response.getJSONArray(KEY_RESULT);
 
             for (int i = 0; i < newsArray.length(); i++) {
 
                 Log.e(LOG_TAG, newsArray.length() + "");
                 JSONObject currentNews = newsArray.getJSONObject(i);
-                String type = currentNews.getString("type");
-                String webUrl = currentNews.getString("webUrl");
-                String sectionName = currentNews.getString("sectionName");
-                String webPublicationDate = currentNews.getString("webPublicationDate");
-                String webTitle = currentNews.getString("webTitle");
+                String type = currentNews.getString(KEY_TYPE);
+                String webUrl = currentNews.getString(KEY_URL);
+                String sectionName = currentNews.getString(KEY_SECTION_NAME);
+                String webPublicationDate = currentNews.getString(KEY_PUBLICATION_DATE);
+                String webTitle = currentNews.getString(KEY_TITLE);
                 String author = "";
                 JSONObject elements = newsArray.getJSONObject(i);
-                if (elements.has("fields")) {
-                    JSONObject fields = elements.getJSONObject("fields");
-                    if (fields.has("byline")) {
-                        author = fields.getString("byline");
+                if (elements.has(KEY_FIELD)) {
+                    JSONObject fields = elements.getJSONObject(KEY_FIELD);
+                    if (fields.has(KEY_BYLINE)) {
+                        author = fields.getString(KEY_BYLINE);
                     }
                 } else {
-                    author="No Author ..";
+                    author = Resources.getSystem().getString(R.string.no_author);
                 }
 
                 Log.e(LOG_TAG, type + "\n" +
@@ -143,7 +169,7 @@ public class QueryUtils {
 
             }
         } catch (JSONException e) {
-            Log.e(LOG_TAG, "Problem parsing extractFeatureFromJson: ", e);
+            Log.e(LOG_TAG, Resources.getSystem().getString(R.string.problem_json_msg), e);
             e.printStackTrace();
 
         }

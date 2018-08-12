@@ -10,6 +10,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:orientation="vertical"
         android:layout_height="wrap_content"
         android:background="@color/black">
 
@@ -24,7 +25,25 @@
             android:textSize="@dimen/error_size"
             android:textStyle="bold"/>
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_start"
+        android:background="@android:color/holo_red_dark"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/no_internet_connection"
+            android:textColor="@android:color/white"
+            />
+    </LinearLayout>
     <ProgressBar
+
         android:id="@+id/indicator"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"

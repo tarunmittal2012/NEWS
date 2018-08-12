@@ -2,6 +2,8 @@ package com.example.tarunmittal.news;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -13,12 +15,15 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 public class MainActivity extends AppCompatActivity implements android.support.v4.app.LoaderManager.LoaderCallbacks<List<News>>, SwipeRefreshLayout.OnRefreshListener {
 
     private static final String LOG_TAG = MainActivity.class.getName();
@@ -30,9 +35,14 @@ public class MainActivity extends AppCompatActivity implements android.support.v
 
     ListView newsView;
 
+    SwipeRefreshLayout mSwipeRefreshLayout;
+
+    LinearLayout mLinearLayout;
+
+    private Timer autoUpdate;
+
     private NewsAdapter mAdapter;
 
-    SwipeRefreshLayout mSwipeRefreshLayout;
     private TextView mEmptyStateTextView;
 
     @Override
@@ -43,7 +53,9 @@ public class MainActivity extends AppCompatActivity implements android.support.v
         newsView = findViewById(R.id.news_list);
         mEmptyStateTextView = findViewById(R.id.error_textview);
         newsView.setEmptyView(mEmptyStateTextView);
+        mLinearLayout = findViewById(R.id.linear);
         mSwipeRefreshLayout = findViewById(R.id.refresh_layout);
+
         mSwipeRefreshLayout.setRefreshing(false);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.list_background));
@@ -74,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements android.support.v
             View loadingIndicator = findViewById(R.id.indicator);
             loadingIndicator.setVisibility(View.GONE);
             mEmptyStateTextView.setText(R.string.no_internet_connection);
+            mLinearLayout.setVisibility(View.VISIBLE);
         }
 
     }
@@ -97,6 +110,13 @@ public class MainActivity extends AppCompatActivity implements android.support.v
             mAdapter.clear();
             mAdapter.setNotifyOnChange(true);
             mAdapter.addAll(news);
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#59c124")));
+            mSwipeRefreshLayout.setVisibility(View.VISIBLE);
+            mLinearLayout.setVisibility(View.GONE);
+        } else {
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ff0000")));
+            mLinearLayout.setVisibility(View.VISIBLE);
+            mSwipeRefreshLayout.setVisibility(View.GONE);
         }
     }
 
@@ -110,7 +130,38 @@ public class MainActivity extends AppCompatActivity implements android.support.v
     public void onRefresh() {
 
         getSupportLoaderManager().restartLoader(NEWS_LOADER_ID, null, this);
+        Toast.makeText(this, "News are Updated !", Toast.LENGTH_SHORT).show();
+
         mSwipeRefreshLayout.setRefreshing(false);
+
+    }
+
+    @Override
+    public void onResume() {
+
+        super.onResume();
+        autoUpdate = new Timer();
+        autoUpdate.schedule(new TimerTask() {
+
+            @Override
+            public void run() {
+
+                runOnUiThread(new Runnable() {
+
+                    public void run() {
+
+                        onRefresh();
+                    }
+                });
+            }
+        }, 0, 5000); // updates each 40 secs
+    }
+
+    @Override
+    public void onPause() {
+
+        autoUpdate.cancel();
+        super.onPause();
     }
 }
 
