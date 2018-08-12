@@ -21,7 +21,7 @@
     <string name="news_setting">News Settings</string>
     <string name="COLOR_GREEN">#59c124</string>
     <string name="COLOR_DARK_RED">#ff0000</string>
-
+    <string name="type_value">0</string>
     <string name="menu_item">setting</string>
 
     <string name="minimum_news">Minimum News</string>
