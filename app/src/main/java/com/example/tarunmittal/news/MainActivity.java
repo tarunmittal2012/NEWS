@@ -129,11 +129,11 @@ public class MainActivity extends AppCompatActivity implements android.support.v
             mAdapter.clear();
             mAdapter.setNotifyOnChange(true);
             mAdapter.addAll(news);
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#59c124")));
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(getString(R.string.COLOR_GREEN))));
             mSwipeRefreshLayout.setVisibility(View.VISIBLE);
             mLinearLayout.setVisibility(View.GONE);
         } else {
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ff0000")));
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(getString(R.string.COLOR_DARK_RED))));
             mLinearLayout.setVisibility(View.VISIBLE);
             mSwipeRefreshLayout.setVisibility(View.GONE);
         }
