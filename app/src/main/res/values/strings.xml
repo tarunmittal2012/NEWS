@@ -48,7 +48,7 @@
     <string name="settings_section_all_news_label">All</string>
     <string name="settings_section_australia_news_news_label">Australia news</string>
     <string name="settings_section_media_network_news_label">Media Network</string>
-    <string name="settings_section_Business_news_label">Buisness</string>
+    <string name="settings_section_Business_news_label">Business</string>
     <string name="settings_section_society_label">Society</string>
     <string name="settings_section_Film_news_label">Film</string>
     <string name="settings_section_world_news_label">World news</string>
@@ -60,6 +60,11 @@
     <string name="settings_section_society_value" translatable="false">society</string>
     <string name="settings_section_Business_value" translatable="false">buisness</string>
     <string name="settings_section_Film_value" translatable="false">film</string>
+    <string name="contributor">contributor</string>
+    <string name="show_tag_key">show-tags</string>
+    <string name="page_size_key">page-size</string>
+    <string name="order_by_key1">order-by</string>
+    <string name="section_key1">section</string>
 
     <string-array name="order_by_label">
         <item>@string/order_by_newest_news_label</item>

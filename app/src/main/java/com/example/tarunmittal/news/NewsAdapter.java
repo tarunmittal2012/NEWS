@@ -27,6 +27,7 @@ public class NewsAdapter extends ArrayAdapter<News> {
 
         }
         News currentNews = getItem(position);
+
         TextView webTitle = listItemView.findViewById(R.id.web_title);
         TextView webPublicationDate = listItemView.findViewById(R.id.publication_date);
         TextView type = listItemView.findViewById(R.id.news_type);

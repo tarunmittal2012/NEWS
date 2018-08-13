@@ -26,8 +26,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 public class MainActivity extends AppCompatActivity implements android.support.v4.app.LoaderManager.LoaderCallbacks<List<News>>, SwipeRefreshLayout.OnRefreshListener {
 
     private static final String LOG_TAG = MainActivity.class.getName();
@@ -37,17 +35,25 @@ public class MainActivity extends AppCompatActivity implements android.support.v
 
     private static final int NEWS_LOADER_ID = 1;
 
+    private static final String SHOW_TAG_KEY = "show-tags";
+
+    private static final String PAGE_SIZE_KEY = "page-size";
+
+    private static final String ORDER_BY_KEY = "order-by";
+
+    private static final String SECTION_KEY = "section";
+
+    private static final String SHOW_TAG_VALUE = "contributor";
+
     ListView newsView;
 
     SwipeRefreshLayout mSwipeRefreshLayout;
 
     LinearLayout mLinearLayout;
 
-    private Timer autoUpdate;
+    TextView mEmptyStateTextView;
 
     private NewsAdapter mAdapter;
-
-    private TextView mEmptyStateTextView;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -55,10 +61,11 @@ public class MainActivity extends AppCompatActivity implements android.support.v
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         newsView = findViewById(R.id.news_list);
-        mEmptyStateTextView = findViewById(R.id.error_textview);
-        newsView.setEmptyView(mEmptyStateTextView);
-        mLinearLayout = findViewById(R.id.linear);
         mSwipeRefreshLayout = findViewById(R.id.refresh_layout);
+        newsView.setEmptyView(mEmptyStateTextView);
+        mEmptyStateTextView = findViewById(R.id.error_textview);
+        mLinearLayout = findViewById(R.id.linear);
+
         mSwipeRefreshLayout.setRefreshing(false);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.list_background));
@@ -91,7 +98,6 @@ public class MainActivity extends AppCompatActivity implements android.support.v
             mEmptyStateTextView.setText(R.string.no_internet_connection);
             mLinearLayout.setVisibility(View.VISIBLE);
         }
-
     }
 
     @NonNull
@@ -99,7 +105,6 @@ public class MainActivity extends AppCompatActivity implements android.support.v
     public Loader<List<News>> onCreateLoader(int i, @Nullable Bundle bundle) {
 
         SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(this);
-
         String minNews = preference.getString(getString(R.string.minimum_news_key), getString(R.string.minimum_news_value));
         String orderBy = preference.getString(getString(R.string.order_by_key), getString(R.string.order_by_default));
         String section = preference.getString(getString(R.string.section_key), getString(R.string.section_default));
@@ -107,17 +112,23 @@ public class MainActivity extends AppCompatActivity implements android.support.v
         Uri baseUri = Uri.parse(NEWS_REQUEST_URL);
         Uri.Builder uriBuilder = baseUri.buildUpon();
 
-        uriBuilder.appendQueryParameter("api-key", "test");
-        uriBuilder.appendQueryParameter("show-tags", "contributor");
-        uriBuilder.appendQueryParameter("page-size", minNews);
-        uriBuilder.appendQueryParameter("order-by", orderBy);
+        uriBuilder.appendQueryParameter(SHOW_TAG_KEY, SHOW_TAG_VALUE);
+        uriBuilder.appendQueryParameter(PAGE_SIZE_KEY, minNews);
+        uriBuilder.appendQueryParameter(ORDER_BY_KEY, orderBy);
 
         if (!section.equals(getString(R.string.section_default))) {
-            uriBuilder.appendQueryParameter("section", section);
+            uriBuilder.appendQueryParameter(SECTION_KEY, section);
         }
-        Log.e(LOG_TAG, baseUri.toString());
-        return new NewsLoader(this, NEWS_REQUEST_URL);
+        Log.e(LOG_TAG, uriBuilder.toString());
+        return new NewsLoader(this, uriBuilder.toString());
 
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        getSupportLoaderManager().restartLoader(NEWS_LOADER_ID, null, this).forceLoad();
+        super.onBackPressed();
     }
 
     @Override
@@ -134,10 +145,11 @@ public class MainActivity extends AppCompatActivity implements android.support.v
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(getString(R.string.COLOR_GREEN))));
             mSwipeRefreshLayout.setVisibility(View.VISIBLE);
             mLinearLayout.setVisibility(View.GONE);
+            mEmptyStateTextView.setVisibility(View.GONE);
         } else {
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(getString(R.string.COLOR_DARK_RED))));
             mLinearLayout.setVisibility(View.VISIBLE);
-            mSwipeRefreshLayout.setVisibility(View.GONE);
+            newsView.setVisibility(View.GONE);
         }
     }
 
@@ -151,38 +163,8 @@ public class MainActivity extends AppCompatActivity implements android.support.v
     public void onRefresh() {
 
         getSupportLoaderManager().restartLoader(NEWS_LOADER_ID, null, this);
-//        Toast.makeText(this, "News are Updated !", Toast.LENGTH_SHORT).show();
-
         mSwipeRefreshLayout.setRefreshing(false);
 
-    }
-
-    @Override
-    public void onResume() {
-
-        super.onResume();
-        autoUpdate = new Timer();
-        autoUpdate.schedule(new TimerTask() {
-
-            @Override
-            public void run() {
-
-                runOnUiThread(new Runnable() {
-
-                    public void run() {
-
-                        onRefresh();
-                    }
-                });
-            }
-        }, 0, 5000); // updates each 40 secs
-    }
-
-    @Override
-    public void onPause() {
-
-        autoUpdate.cancel();
-        super.onPause();
     }
 
     @Override
