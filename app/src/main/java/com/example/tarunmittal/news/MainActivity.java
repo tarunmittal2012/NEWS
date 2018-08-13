@@ -2,17 +2,20 @@ package com.example.tarunmittal.news;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +23,6 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements android.support.v
     private static final String LOG_TAG = MainActivity.class.getName();
 
     private static final String NEWS_REQUEST_URL =
-            "https://content.guardianapis.com/search?api-key";
+            "https://content.guardianapis.com/search?api-key=6583ac2e-75a5-4032-bb9d-1da35a70e296&show-fields=byline";
 
     private static final int NEWS_LOADER_ID = 1;
 
@@ -96,13 +98,24 @@ public class MainActivity extends AppCompatActivity implements android.support.v
     @Override
     public Loader<List<News>> onCreateLoader(int i, @Nullable Bundle bundle) {
 
-/*        SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences preference = PreferenceManager.getDefaultSharedPreferences(this);
 
         String minNews = preference.getString(getString(R.string.minimum_news_key), getString(R.string.minimum_news_value));
         String orderBy = preference.getString(getString(R.string.order_by_key), getString(R.string.order_by_default));
         String section = preference.getString(getString(R.string.section_key), getString(R.string.section_default));
-*/
 
+        Uri baseUri = Uri.parse(NEWS_REQUEST_URL);
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+
+        uriBuilder.appendQueryParameter("api-key", "test");
+        uriBuilder.appendQueryParameter("show-tags", "contributor");
+        uriBuilder.appendQueryParameter("page-size", minNews);
+        uriBuilder.appendQueryParameter("order-by", orderBy);
+
+        if (!section.equals(getString(R.string.section_default))) {
+            uriBuilder.appendQueryParameter("section", section);
+        }
+        Log.e(LOG_TAG, baseUri.toString());
         return new NewsLoader(this, NEWS_REQUEST_URL);
 
     }
@@ -138,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements android.support.v
     public void onRefresh() {
 
         getSupportLoaderManager().restartLoader(NEWS_LOADER_ID, null, this);
-        Toast.makeText(this, "News are Updated !", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "News are Updated !", Toast.LENGTH_SHORT).show();
 
         mSwipeRefreshLayout.setRefreshing(false);
 
