@@ -156,7 +156,7 @@ public class QueryUtils {
                         author = fields.getString(KEY_BYLINE);
                     }
                 } else {
-                    author = Resources.getSystem().getString(R.string.no_author);
+                    author = "No Author ..";
                 }
 
                 Log.e(LOG_TAG, type + "\n" +
